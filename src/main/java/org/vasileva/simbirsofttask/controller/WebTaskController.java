@@ -11,7 +11,7 @@ import org.vasileva.simbirsofttask.repo.SourceThreadRepository;
 import java.util.Map;
 
 @Controller
-public class WebTaskController implements TaskController{
+public class WebTaskController {
     private final ParseLogRepository parseLogRepository;
     private final LogLevelRepository logLevelRepository;
     private final SourceThreadRepository sourceThreadRepository;

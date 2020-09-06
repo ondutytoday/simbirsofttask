@@ -1,6 +1,4 @@
 package org.vasileva.simbirsofttask.service;
 
-public interface FileCheckService {
-
-
+public interface TaskService {
 }

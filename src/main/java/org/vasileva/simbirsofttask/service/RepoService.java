@@ -20,6 +20,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
+/*
+* класс, получающий данный из файла, парсящий их и сохраняющий в базу данных
+* */
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class RepoService {
@@ -38,6 +41,7 @@ public class RepoService {
         this.sourceThreadRepository = sourceThreadRepository;
     }
 
+    //парсим
     private void parseWordsInFile() throws IOException {
         BufferedReader bis = new BufferedReader(new FileReader(fileWithLogs.toFile()));
 
@@ -69,6 +73,7 @@ public class RepoService {
         }
     }
 
+    //сохраняем
     private void saveToRepo(Timestamp time, String threadName, String logDescription, String message) {
         SourceThread sourceThread = sourceThreadRepository.findByThreadName(threadName);
         if (sourceThread == null) {
@@ -85,6 +90,7 @@ public class RepoService {
     }
 
 
+    //получаем файл который будем парсить
     public void parseFile(Path fileWithLogs) throws IOException {
         this.fileWithLogs = fileWithLogs;
         parseWordsInFile();

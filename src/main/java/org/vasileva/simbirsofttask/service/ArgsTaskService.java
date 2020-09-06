@@ -13,6 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/*
+* Класс, который получает аргумент в виде пути к файлу,
+* проверяет его размер и если всё нормально - передает его дальше в RepoService
+*
+* */
 @Service
 @PropertySource("classpath:application.properties")
 public class ArgsTaskService implements CommandLineRunner, TaskService {
@@ -27,6 +32,7 @@ public class ArgsTaskService implements CommandLineRunner, TaskService {
         this.repoService = repoService;
     }
 
+    //пытаемся получить файл
     @Override
     public void run(String... args) throws Exception {
         Path fileWithLogs = null;
@@ -41,10 +47,12 @@ public class ArgsTaskService implements CommandLineRunner, TaskService {
 
     }
 
+    //возвращает значение размера файла в байтах, т.к. в properties задаем в килобайтах (а если быть точнее в кибибайтах)
     private Long getFileSizeInBytes() {
         return fileSize * 1024;
     }
 
+    //проверяем размер файла
     @Override
     public void checkFile(Path fileWithLogs) throws IOException, FileSizeException {
         if (Files.size(fileWithLogs) <= (getFileSizeInBytes())) {

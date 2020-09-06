@@ -3,6 +3,11 @@ package org.vasileva.simbirsofttask.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/*
+* Описание основной таблицы с логами.
+* Сюда входит дата и время лога, ид его уровня, ид имени потока и сообщение
+*
+* */
 @Entity
 @Table (name = "parsedlog")
 public class ParsedLog {

@@ -2,7 +2,11 @@ package org.vasileva.simbirsofttask.entity;
 
 import javax.persistence.*;
 
-
+/*
+* Описание таблицы "Уровни логгирования"
+*
+* Можно переделать в ENUM, но не успела
+* */
 @Entity
 @Table(name = "loglevel")
 public class LogLevel {

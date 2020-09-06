@@ -1,9 +1,12 @@
 package org.vasileva.simbirsofttask.exception;
-
+/*
+* Исключение, возникающее, если файл боле чем заданный нами в properties
+* */
 public class FileSizeException extends Exception{
     public FileSizeException() {
     }
 
+    //конструкторы
     public FileSizeException(String message) {
         super(message);
     }

@@ -4,6 +4,10 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 
+/*
+* Описание для таблицы "Потоки"
+* */
+
 @Entity
 @Table(name = "sourcethread")
 public class SourceThread {

@@ -10,6 +10,11 @@ import org.vasileva.simbirsofttask.repo.SourceThreadRepository;
 
 import java.util.Map;
 
+/*
+* Контроллер для web
+*
+* Не реализован :(
+* */
 @Controller
 public class WebTaskController {
     private final ParseLogRepository parseLogRepository;

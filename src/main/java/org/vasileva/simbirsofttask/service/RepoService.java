@@ -1,5 +1,6 @@
 package org.vasileva.simbirsofttask.service;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.vasileva.simbirsofttask.entity.LogLevel;
 import org.vasileva.simbirsofttask.entity.ParsedLog;
@@ -14,7 +15,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.StringJoiner;
+import java.util.zip.DataFormatException;
 
 @Service
 public class RepoService {
@@ -36,15 +40,28 @@ public class RepoService {
         while (bis.ready()) {
             String line = bis.readLine();
             String[] partsOfLog = line.split(" ");
-            Timestamp time = Timestamp.valueOf(LocalDateTime.parse(partsOfLog[0].concat(" ").concat(partsOfLog[1]), ParserForDateTimeUtil.DATE_TIME_FORMATTER));
-            String threadName = partsOfLog[2].substring(1, partsOfLog[2].length() - 1);
-            String logDescription = partsOfLog[3];
-            StringJoiner joiner = new StringJoiner(" ");
-            for (int i = 4; i < partsOfLog.length; i++) {
-                joiner.add(partsOfLog[i]);
+            if (partsOfLog.length < 4) {
+                continue;
             }
-            String message = joiner.toString();
-            saveToRepo(time, threadName, logDescription, message);
+            Timestamp time = null;
+            String threadName = null;
+            String logDescription = null;
+            String message = null;
+
+            String dateTime = partsOfLog[0].concat(" ").concat(partsOfLog[1]);
+
+            if (dateTime.matches("\\d\\d\\d\\d-\\d\\d-\\d\\d \\d\\d:\\d\\d:\\d\\d.\\d\\d\\d")) {
+                time = Timestamp.valueOf(LocalDateTime.parse(dateTime, ParserForDateTimeUtil.DATE_TIME_FORMATTER));
+                threadName = partsOfLog[2].substring(1, partsOfLog[2].length() - 1);
+                logDescription = partsOfLog[3];
+                StringJoiner joiner = new StringJoiner(" ");
+                for (int i = 4; i < partsOfLog.length; i++) {
+                    joiner.add(partsOfLog[i]);
+                }
+                message = joiner.toString();
+                saveToRepo(time, threadName, logDescription, message);
+            }
+
         }
     }
 

@@ -29,7 +29,7 @@ public class ArgsTaskService implements CommandLineRunner, TaskService {
         try {
             fileWithLogs = Paths.get(args[0]);
         } catch (Exception e) {
-            System.out.println("Something wrong with your args");
+            System.out.println("\n---------------------------\n" + "Something wrong with your args" + "\n---------------------------\n");
             throw e;
         }
 
@@ -38,7 +38,7 @@ public class ArgsTaskService implements CommandLineRunner, TaskService {
     }
 
     private Long getFileSizeInBytes() {
-        return fileSize * 1024 * 1024;
+        return fileSize * 1024;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ArgsTaskService implements CommandLineRunner, TaskService {
         if (Files.size(fileWithLogs) <= (getFileSizeInBytes())) {
             repoService.parseFile(fileWithLogs);
         } else {
-            throw new FileSizeException("Your file is more than " + fileSize + " Mb");
+            throw new FileSizeException("\n---------------------------\n" + "Your file is more than " + fileSize + " Kb \n---------------------------");
         }
     }
 

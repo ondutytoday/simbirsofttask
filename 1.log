@@ -1,3 +1,5 @@
+ <dependencies>
+        <!--Spring dependencies-->
 2019-08-30 20:43:37.407 [main] INFO ru.javastudy.examples.User - This is some message
 2019-08-30 20:43:37.407 [main] INFO ru.javastudy.examples.User - This is some message
 2019-08-30 20:43:37.409 [worker-5] INFO ru.javastudy.examples.User - 427613566

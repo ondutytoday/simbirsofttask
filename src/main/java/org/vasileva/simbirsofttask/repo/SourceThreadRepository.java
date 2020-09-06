@@ -10,6 +10,6 @@ import org.vasileva.simbirsofttask.entity.SourceThread;
 @Repository
 public interface SourceThreadRepository extends CrudRepository<SourceThread, Long>, JpaRepository<SourceThread, Long> {
 
-    @Query("SELECT t FROM SourceThread t WHERE LOWER(t.threadName) = LOWER(:name)")
-    SourceThread findByName(@Param("thread_name") String name);
+    //@Query("SELECT t FROM SourceThread t WHERE LOWER(t.threadName) = LOWER(:name)")
+    SourceThread findByThreadName(@Param("thread_name") String name);
 }

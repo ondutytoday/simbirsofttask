@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
-@PropertySource("classpath:resources/application.properties")
+@PropertySource("classpath:application.properties")
 public class ArgsTaskService implements CommandLineRunner, TaskService {
 
     @Value("${fileSize}")

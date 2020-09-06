@@ -10,6 +10,6 @@ import org.vasileva.simbirsofttask.entity.LogLevel;
 @Repository
 public interface LogLevelRepository extends CrudRepository<LogLevel, Long>, JpaRepository<LogLevel, Long> {
 
-    @Query("SELECT t FROM LogLevel t WHERE LOWER(t.description) = LOWER(:name)")
-    LogLevel findByName(@Param("description") String name);
+    //@Query("SELECT t FROM LogLevel t WHERE LOWER(t.description) = LOWER(:name)")
+    LogLevel findByDescription(@Param("description") String name);
 }

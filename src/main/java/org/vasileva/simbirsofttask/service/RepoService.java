@@ -49,12 +49,12 @@ public class RepoService {
     }
 
     private void saveToRepo(Timestamp time, String threadName, String logDescription, String message) {
-        SourceThread sourceThread = sourceThreadRepository.findByName(threadName);
+        SourceThread sourceThread = sourceThreadRepository.findByThreadName(threadName);
         if (sourceThread == null) {
             sourceThread = new SourceThread(threadName);
             sourceThreadRepository.save(sourceThread);
         }
-        LogLevel logLevel = logLevelRepository.findByName(logDescription);
+        LogLevel logLevel = logLevelRepository.findByDescription(logDescription);
         if (logLevel == null) {
             logLevel = new LogLevel(logDescription);
             logLevelRepository.save(logLevel);

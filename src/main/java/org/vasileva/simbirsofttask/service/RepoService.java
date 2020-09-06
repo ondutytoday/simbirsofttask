@@ -38,26 +38,27 @@ public class RepoService {
             String[] partsOfLog = line.split(" ");
             Timestamp time = Timestamp.valueOf(LocalDateTime.parse(partsOfLog[0].concat(" ").concat(partsOfLog[1]), ParserForDateTimeUtil.DATE_TIME_FORMATTER));
             String threadName = partsOfLog[2].substring(1, partsOfLog[2].length() - 1);
-            String type = partsOfLog[3];
+            String logDescription = partsOfLog[3];
             StringJoiner joiner = new StringJoiner(" ");
             for (int i = 4; i < partsOfLog.length; i++) {
                 joiner.add(partsOfLog[i]);
             }
             String message = joiner.toString();
-            saveToRepo(time, threadName, type, message);
+            saveToRepo(time, threadName, logDescription, message);
         }
     }
 
-    private void saveToRepo(Timestamp time, String threadName, String type, String message) {
+    private void saveToRepo(Timestamp time, String threadName, String logDescription, String message) {
         SourceThread sourceThread = sourceThreadRepository.findByName(threadName);
         if (sourceThread == null) {
             sourceThread = new SourceThread(threadName);
             sourceThreadRepository.save(sourceThread);
         }
-
-
-        LogLevel logLevel = new LogLevel(type);
-        logLevelRepository.save(logLevel);
+        LogLevel logLevel = logLevelRepository.findByName(logDescription);
+        if (logLevel == null) {
+            logLevel = new LogLevel(logDescription);
+            logLevelRepository.save(logLevel);
+        }
         ParsedLog parsedLog = new ParsedLog(time, sourceThread, logLevel, message);
         parseLogRepository.save(parsedLog);
     }

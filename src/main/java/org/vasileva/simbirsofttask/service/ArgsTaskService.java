@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.vasileva.simbirsofttask.exception.FileSizeException;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,15 +16,11 @@ import java.nio.file.Paths;
 public class ArgsTaskService implements CommandLineRunner, TaskService {
 
     @Value("${fileSize}")
-    private Long fileSize;
+    Long fileSize;
     private RepoService repoService;
 
     public ArgsTaskService(RepoService repoService) {
         this.repoService = repoService;
-    }
-
-    private Long getFileSizeInBytes() {
-        return fileSize * 1024 * 1024;
     }
 
     @Override
@@ -36,12 +33,21 @@ public class ArgsTaskService implements CommandLineRunner, TaskService {
             throw e;
         }
 
+        checkFile(fileWithLogs);
+
+    }
+
+    private Long getFileSizeInBytes() {
+        return fileSize * 1024 * 1024;
+    }
+
+    @Override
+    public void checkFile(Path fileWithLogs) throws IOException, FileSizeException {
         if (Files.size(fileWithLogs) <= (getFileSizeInBytes())) {
             repoService.parseFile(fileWithLogs);
         } else {
             throw new FileSizeException("Your file is more than " + fileSize + " Mb");
         }
-
     }
 
 

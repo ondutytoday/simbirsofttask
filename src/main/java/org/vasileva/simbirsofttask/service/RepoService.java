@@ -1,7 +1,10 @@
 package org.vasileva.simbirsofttask.service;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.vasileva.simbirsofttask.entity.LogLevel;
 import org.vasileva.simbirsofttask.entity.ParsedLog;
 import org.vasileva.simbirsofttask.entity.SourceThread;
@@ -15,13 +18,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.StringJoiner;
-import java.util.zip.DataFormatException;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class RepoService {
+
+    private static Logger logger = LoggerFactory.getLogger(RepoService.class);
+
     private final ParseLogRepository parseLogRepository;
     private final LogLevelRepository logLevelRepository;
     private final SourceThreadRepository sourceThreadRepository;

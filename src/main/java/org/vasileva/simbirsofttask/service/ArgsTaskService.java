@@ -1,5 +1,7 @@
 package org.vasileva.simbirsofttask.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.PropertySource;
@@ -14,6 +16,8 @@ import java.nio.file.Paths;
 @Service
 @PropertySource("classpath:application.properties")
 public class ArgsTaskService implements CommandLineRunner, TaskService {
+
+    private static Logger logger = LoggerFactory.getLogger(ArgsTaskService.class);
 
     @Value("${fileSize}")
     Long fileSize;
@@ -30,7 +34,7 @@ public class ArgsTaskService implements CommandLineRunner, TaskService {
             fileWithLogs = Paths.get(args[0]);
         } catch (Exception e) {
             System.out.println("\n---------------------------\n" + "Something wrong with your args" + "\n---------------------------\n");
-            throw e;
+            logger.error(e.getMessage());
         }
 
         checkFile(fileWithLogs);
@@ -46,6 +50,7 @@ public class ArgsTaskService implements CommandLineRunner, TaskService {
         if (Files.size(fileWithLogs) <= (getFileSizeInBytes())) {
             repoService.parseFile(fileWithLogs);
         } else {
+            logger.error("Your file is more than " + fileSize + " Kb");
             throw new FileSizeException("\n---------------------------\n" + "Your file is more than " + fileSize + " Kb \n---------------------------");
         }
     }
